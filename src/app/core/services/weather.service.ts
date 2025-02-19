@@ -1,51 +1,13 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { catchError, finalize, map, shareReplay } from 'rxjs/operators';
+import {
+  WeatherData,
+  WeatherSearch,
+} from '../../shared/interfaces/weatherData.interface';
 import { ApiService } from './api.service';
-import { LocalStorageService, WeatherSearch } from './local-storage.service';
 import { LoadingService } from './loading.service';
-
-export interface WeatherData {
-  coord: {
-    lon: number;
-    lat: number;
-  };
-  weather: {
-    id: number;
-    main: string;
-    description: string;
-    icon: string;
-  }[];
-  base: string;
-  main: {
-    temp: number;
-    feels_like: number;
-    temp_min: number;
-    temp_max: number;
-    pressure: number;
-    humidity: number;
-  };
-  visibility: number;
-  wind: {
-    speed: number;
-    deg: number;
-  };
-  clouds: {
-    all: number;
-  };
-  dt: number;
-  sys: {
-    type: number;
-    id: number;
-    country: string;
-    sunrise: number;
-    sunset: number;
-  };
-  timezone: number;
-  id: number;
-  name: string;
-  cod: number;
-}
+import { LocalStorageService } from './local-storage.service';
 
 @Injectable({
   providedIn: 'root',
@@ -56,8 +18,6 @@ export class WeatherService {
   private readonly GEO_API_URL =
     'https://api.openweathermap.org/geo/1.0/direct';
 
-  private readonly PAGE_SIZE = 5;
-
   private readonly favoritesSubject = new BehaviorSubject<WeatherData[]>([]);
   favorites$ = this.favoritesSubject.asObservable();
 
@@ -65,14 +25,20 @@ export class WeatherService {
   history$ = this.historySubject.asObservable();
 
   private readonly cache = new Map<string, Observable<any>>();
-  historyPage: number = 0;
-  favoritesPage: number = 0;
+
+  private readonly historyPage = new BehaviorSubject<number>(1);
+
+  private readonly favoritesPage = new BehaviorSubject<number>(1);
+
+  private readonly pageSize = 5;
 
   constructor(
     private readonly httpService: ApiService,
     private readonly localStorageService: LocalStorageService,
     private readonly loadingService: LoadingService,
   ) {
+    this.loadPaginatedHistory();
+    this.loadPaginatedFavorites();
     this.localStorageService.favorites$.subscribe((favs) =>
       this.favoritesSubject.next(favs),
     );
@@ -83,7 +49,6 @@ export class WeatherService {
 
   getWeatherByCity(city: string): Observable<WeatherData> {
     if (this.cache.has(city)) {
-      console.log(`Cache hit for: ${city}`);
       return this.cache.get(city)!;
     }
     this.loadingService.show();
@@ -103,7 +68,6 @@ export class WeatherService {
 
   searchCity(query: string): Observable<string[]> {
     if (!query.trim()) return of([]);
-    console.log('searchCity', query);
 
     return this.httpService
       .get<
@@ -129,6 +93,10 @@ export class WeatherService {
     this.localStorageService.clearHistory();
   }
 
+  async clearFavorites() {
+    this.localStorageService.clearFavorites();
+  }
+
   async addFavorite(city: any) {
     this.localStorageService.addToFavorites(city);
   }
@@ -141,39 +109,30 @@ export class WeatherService {
     this.localStorageService.removeFromFavorites(city);
   }
 
-  private async loadFavorites() {
-    const favorites = this.getFavorites();
-    this.favoritesSubject.next(
-      favorites.slice(0, this.favoritesPage * this.PAGE_SIZE),
-    );
+  private loadPaginatedHistory() {
+    this.historyPage.subscribe((page) => {
+      const fullHistory = this.localStorageService.getHistory();
+      const paginatedHistory = fullHistory.slice(0, page * this.pageSize);
+      this.historySubject.next(paginatedHistory);
+    });
   }
 
-  private async loadHistory() {
-    const history = this.localStorageService.getHistory();
-    this.historySubject.next(
-      history.slice(0, this.historyPage * this.PAGE_SIZE),
-    );
+  private loadPaginatedFavorites() {
+    this.favoritesPage.subscribe((page) => {
+      const fullFavorites = this.localStorageService.getFavorites();
+      const paginatedFavorites = fullFavorites.slice(0, page * this.pageSize);
+      this.favoritesSubject.next(paginatedFavorites);
+    });
   }
 
   loadMoreHistory() {
-    this.historyPage++;
-    const history = this.localStorageService.getHistory();
-    const newHistory = history.slice(
-      0,
-      (this.historyPage + 1) * this.PAGE_SIZE,
-    );
-    this.historySubject.next(newHistory);
+    this.historyPage.next(this.historyPage.getValue() + 1);
   }
 
   loadMoreFavorites() {
-    this.favoritesPage++;
-    const favorites = this.localStorageService.getFavorites();
-    const newFavorites = favorites.slice(
-      0,
-      (this.favoritesPage + 1) * this.PAGE_SIZE,
-    );
-    this.favoritesSubject.next(newFavorites);
+    this.favoritesPage.next(this.favoritesPage.getValue() + 1);
   }
+
   private handleError(error: any, context: string): Observable<never> {
     console.error(`Error in ${context}:`, error);
 

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { WeatherService } from '../../core/services/weather.service';
 import { CommonModule } from '@angular/common';
-import { WeatherSearch } from '../../core/services/local-storage.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { WeatherSearch } from '../../shared/interfaces/weatherData.interface';
 
 @Component({
   selector: 'app-weather-view',

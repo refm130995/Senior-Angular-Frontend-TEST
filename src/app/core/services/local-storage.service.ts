@@ -1,12 +1,9 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { WeatherData } from './weather.service';
-
-export interface WeatherSearch {
-  city: string;
-  timestamp: number;
-  weather: WeatherData;
-}
+import {
+  WeatherData,
+  WeatherSearch,
+} from '../../shared/interfaces/weatherData.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -24,7 +21,9 @@ export class LocalStorageService {
     this.getHistory(),
   );
   history$ = this.historySubject.asObservable();
-
+  historyPage: number = 0;
+  favoritesPage: number = 0;
+  private readonly PAGE_SIZE = 5;
   constructor() {
     this.favoritesSubject.next(this.getFavorites());
     this.historySubject.next(this.getHistory());
@@ -54,6 +53,12 @@ export class LocalStorageService {
     if (!this.isLocalStorageAvailable()) return;
     localStorage.removeItem(this.HISTORY_KEY);
     this.historySubject.next([]);
+  }
+
+  clearFavorites() {
+    if (!this.isLocalStorageAvailable()) return;
+    localStorage.removeItem(this.FAVORITES_KEY);
+    this.favoritesSubject.next([]);
   }
 
   addToFavorites(city: WeatherData) {

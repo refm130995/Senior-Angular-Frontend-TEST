@@ -27,7 +27,8 @@
   "FAVORITES": {
     "TITLE": "Ciudades Favoritas",
     "NO_FAVORITES": "No se han agregado ciudades favoritas.",
-    "CLEAR_FAVORITES": "Limpiar Favoritos"
+    "CLEAR_FAVORITES": "Limpiar Favoritos",
+    "LOAD_MORE": "Cargar Más"
   },
   "HISTORY": {
     "TITLE": "Historial de Búsqueda",

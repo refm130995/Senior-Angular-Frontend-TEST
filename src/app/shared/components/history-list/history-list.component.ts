@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { WeatherService } from '../../../core/services/weather.service';
-import { WeatherSearch } from '../../../core/services/local-storage.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { WeatherSearch } from '../../interfaces/weatherData.interface';
 
 @Component({
   selector: 'app-history-list',
@@ -38,5 +38,9 @@ export class HistoryListComponent implements OnInit {
 
   onCitySelect(city: string) {
     this.citySelected.emit(city);
+  }
+
+  loadMore() {
+    this.weatherService.loadMoreHistory();
   }
 }

@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { WeatherData } from '../../../core/services/weather.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { WeatherData } from '../../interfaces/weatherData.interface';
 
 @Component({
   selector: 'app-weather-card',

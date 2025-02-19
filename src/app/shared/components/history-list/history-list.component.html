@@ -17,6 +17,13 @@
       </button>
     </li>
   </ul>
+  <button
+  *ngIf="history.length"
+  (click)="loadMore()"
+  class="mt-4 w-1/2 bg-blue-200 text-black py-2 rounded-lg hover:bg-blue-500 transition duration-300 block mx-auto"
+>
+  {{ 'FAVORITES.LOAD_MORE' | translate }}
+</button>
 
   <ng-template #noHistory>
     <p class="text-gray-500 text-center">

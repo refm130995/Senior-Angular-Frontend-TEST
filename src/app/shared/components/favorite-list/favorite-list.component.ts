@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { WeatherData, WeatherService } from '../../../core/services/weather.service';
+import { WeatherService } from '../../../core/services/weather.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { WeatherData } from '../../interfaces/weatherData.interface';
 
 @Component({
   selector: 'app-favorite-list',
@@ -32,9 +33,14 @@ export class FavoriteListComponent implements OnInit {
 
   clearFavorites(): void {
     this.favorites = [];
+    this.weatherService.clearFavorites();
   }
 
   trackByFn(index: number, city: any): string {
     return city.name;
+  }
+
+  loadMore() {
+    this.weatherService.loadMoreFavorites();
   }
 }
