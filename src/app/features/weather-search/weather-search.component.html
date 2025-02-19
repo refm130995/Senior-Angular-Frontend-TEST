@@ -1,0 +1,86 @@
+<div class="weather-search-container flex flex-col items-center mt-10 px-4">
+  <div class="w-full flex justify-end mb-4">
+    <button
+      (click)="switchLanguage()"
+      class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition duration-300"
+    >
+      {{ 'WEATHER_SEARCH.LANGUAGE' | translate }}
+    </button>
+  </div>
+
+  <h2 class="text-3xl font-bold text-gray-800 mb-6">
+    {{ 'WEATHER_SEARCH.TITLE' | translate }}
+  </h2>
+
+  <div class="search-box relative w-full max-w-md flex">
+    <input
+      type="text"
+      [formControl]="searchControl"
+      [placeholder]="'WEATHER_SEARCH.PLACEHOLDER' | translate"
+      class="w-full px-4 py-2 border border-gray-300 rounded-l-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+    />
+    <button
+      (click)="searchWeather()"
+      class="px-4 py-2 bg-blue-600 text-white rounded-r-lg hover:bg-blue-700 transition duration-300"
+    >
+      🔍
+    </button>
+  </div>
+
+  <ul
+    *ngIf="suggestions.length"
+    class="absolute w-full max-w-md bg-white border border-gray-200 rounded-lg shadow-lg mt-1 max-h-48 overflow-y-auto z-10"
+  >
+    <li
+      *ngFor="let city of suggestions"
+      (click)="selectCity(city)"
+      class="px-4 py-2 cursor-pointer hover:bg-blue-100 transition duration-200"
+    >
+      {{ city }}
+    </li>
+  </ul>
+
+  <p *ngIf="errorMessage" class="text-red-600 mt-2">
+    {{ 'WEATHER_SEARCH.ERROR' | translate }}
+  </p>
+
+  <app-weather-result
+    *ngIf="weatherData"
+    [weatherData]="weatherData"
+  ></app-weather-result>
+
+  <button
+    (click)="addToFavorites()"
+    *ngIf="weatherData"
+    class="mt-4 px-6 py-2 bg-yellow-500 text-white font-medium rounded-lg shadow-md hover:bg-yellow-600 transition duration-300"
+  >
+    ⭐ {{ 'WEATHER_SEARCH.ADD_TO_FAVORITES' | translate }}
+  </button>
+
+  <div class="w-full max-w-4xl mt-6 flex flex-col gap-6">
+    <div class="p-6">
+      <h3 class="text-xl font-semibold text-gray-700 mb-4">
+        {{ 'WEATHER_SEARCH.WEATHER_VIEW' | translate }}
+      </h3>
+      <app-weather-view></app-weather-view>
+    </div>
+
+    <div class="flex flex-col md:flex-row gap-6">
+      <div class="flex-1 p-6">
+        <h3 class="text-xl font-semibold text-gray-700 mb-4 text-center">
+          {{ 'WEATHER_SEARCH.HISTORY' | translate }}
+        </h3>
+        <app-history-list
+          (citySelected)="onCitySelected($event)"
+        ></app-history-list>
+      </div>
+
+      <div class="flex-1 p-6">
+        <h3 class="text-xl font-semibold text-gray-700 mb-4 text-center">
+          {{ 'WEATHER_SEARCH.FAVORITES' | translate }}
+        </h3>
+        <app-favorite-list></app-favorite-list>
+      </div>
+    </div>
+  </div>
+</div>

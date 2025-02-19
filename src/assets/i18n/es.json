@@ -1,0 +1,37 @@
+{
+  "WEATHER_VIEW": {
+    "TITLE": "Modo de Vista del Clima",
+    "TABLE_VIEW": "Vista de Tabla",
+    "DETAILED_VIEW": "Vista Detallada",
+    "CITY": "Ciudad",
+    "TEMPERATURE": "Temperatura",
+    "LOCAL_TIME": "Hora Local",
+    "HUMIDITY": "Humedad",
+    "WIND_SPEED": "Velocidad del Viento"
+  },
+  "WEATHER_SEARCH": {
+    "TITLE": "Buscar Clima",
+    "PLACEHOLDER": "Buscar ciudad...",
+    "ERROR": "Ocurrió un error. Inténtalo de nuevo.",
+    "ADD_TO_FAVORITES": "Agregar a Favoritos",
+    "WEATHER_VIEW": "Vista del Clima",
+    "HISTORY": "Historial de Búsqueda",
+    "FAVORITES": "Favoritos",
+    "LANGUAGE": "Español"
+  },
+  "WEATHER_DETAILS": {
+    "HUMIDITY": "Humedad",
+    "WIND_SPEED": "Velocidad del Viento",
+    "TEMPERATURE_FAHRENHEIT": "Temperatura en Fahrenheit"
+  },
+  "FAVORITES": {
+    "TITLE": "Ciudades Favoritas",
+    "NO_FAVORITES": "No se han agregado ciudades favoritas.",
+    "CLEAR_FAVORITES": "Limpiar Favoritos"
+  },
+  "HISTORY": {
+    "TITLE": "Historial de Búsqueda",
+    "NO_HISTORY": "No hay historial de búsqueda disponible.",
+    "CLEAR_HISTORY": "Limpiar Historial"
+  }
+}

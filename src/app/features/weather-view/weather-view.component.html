@@ -1,0 +1,65 @@
+<div class="weather-view-container p-4 bg-white rounded-lg shadow-md">
+  <div class="flex justify-between items-center mb-4 md:flex-col">
+    <h2 class="text-lg font-semibold">{{ "WEATHER_VIEW.TITLE" | translate }}</h2>
+    <div class="flex mt-2">
+      <button
+        (click)="setViewMode('table')"
+        [ngClass]="{
+          'bg-blue-500 text-white': viewMode === 'table',
+          'bg-gray-200 hover:bg-gray-300': viewMode !== 'table',
+        }"
+        class="px-4 py-2 rounded-l transition md:rounded-none"
+      >
+        {{ "WEATHER_VIEW.TABLE_VIEW" | translate }}
+      </button>
+
+      <button
+        (click)="setViewMode('detailed')"
+        [ngClass]="{
+          'bg-blue-500 text-white': viewMode === 'detailed',
+          'bg-gray-200 hover:bg-gray-300': viewMode !== 'detailed',
+        }"
+        class="px-4 py-2 rounded-r transition md:rounded-none"
+      >
+        {{ "WEATHER_VIEW.DETAILED_VIEW" | translate }}
+      </button>
+    </div>
+  </div>
+
+  <table
+    *ngIf="viewMode === 'table'"
+    class="w-full border-collapse border border-gray-300"
+  >
+    <thead>
+      <tr class="bg-gray-200">
+        <th class="border p-2">{{ "WEATHER_VIEW.CITY" | translate }}</th>
+        <th class="border p-2">{{ "WEATHER_VIEW.TEMPERATURE" | translate }} (°C)</th>
+        <th class="border p-2">{{ "WEATHER_VIEW.LOCAL_TIME" | translate }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let item of searchHistory"
+        (click)="selectCity(item)"
+        class="cursor-pointer hover:bg-gray-100"
+      >
+        <td class="border p-2 text-center">{{ item?.city }}</td>
+        <td class="border p-2 text-center">{{ item?.weather?.main?.temp }}</td>
+        <td class="border p-2 text-center">
+          {{ item.timestamp | date: "short" }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div
+    *ngIf="viewMode === 'detailed' && selectedCity"
+    class="weather-details text-center"
+  >
+    <h2 class="text-2xl font-bold">{{ selectedCity.city }}</h2>
+    <p class="text-lg">{{ "WEATHER_VIEW.TEMPERATURE" | translate }}: {{ selectedCity.weather.main.temp }}°C</p>
+    <p>{{ "WEATHER_VIEW.HUMIDITY" | translate }}: {{ selectedCity.weather.main.humidity }}%</p>
+    <p>{{ "WEATHER_VIEW.WIND_SPEED" | translate }}: {{ selectedCity.weather.wind.speed }} km/h</p>
+    <p>{{ "WEATHER_VIEW.LOCAL_TIME" | translate }}: {{ selectedCity.timestamp | date: "short" }}</p>
+  </div>
+</div>

@@ -1,0 +1,37 @@
+{
+  "WEATHER_VIEW": {
+    "TITLE": "Weather View Mode",
+    "TABLE_VIEW": "Table View",
+    "DETAILED_VIEW": "Detailed View",
+    "CITY": "City",
+    "TEMPERATURE": "Temperature",
+    "LOCAL_TIME": "Local Time",
+    "HUMIDITY": "Humidity",
+    "WIND_SPEED": "Wind Speed"
+  },
+  "WEATHER_SEARCH": {
+    "TITLE": "Search Weather",
+    "PLACEHOLDER": "Search city...",
+    "ERROR": "An error occurred. Please try again.",
+    "ADD_TO_FAVORITES": "Add to Favorites",
+    "WEATHER_VIEW": "Weather View",
+    "HISTORY": "Search History",
+    "FAVORITES": "Favorites",
+    "LANGUAGE": "English"
+  },
+  "WEATHER_DETAILS": {
+    "HUMIDITY": "Humidity",
+    "WIND_SPEED": "Wind Speed",
+    "TEMPERATURE_FAHRENHEIT": "Temperature in Fahrenheit"
+  },
+  "FAVORITES": {
+    "TITLE": "Favorite Cities",
+    "NO_FAVORITES": "No favorite cities added.",
+    "CLEAR_FAVORITES": "Clear Favorites"
+  },
+  "History": {
+    "TITLE": "Search History",
+    "NO_HISTORY": "No search history available.",
+    "CLEAR_HISTORY": "Clear History"
+  }
+}
